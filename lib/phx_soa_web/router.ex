@@ -24,7 +24,7 @@ defmodule PhxSoaWeb.Router do
 
     resources "/books", BookController, except: [:new, :edit]
   end
-  
+
 
   # Other scopes may use custom stacks.
   # scope "/api", PhxSoaWeb do

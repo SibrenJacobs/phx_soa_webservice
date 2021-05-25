@@ -42,6 +42,9 @@ defmodule PhxSoaWeb.Endpoint do
 
   plug Plug.MethodOverride
   plug Plug.Head
+
+  plug Corsica, origins: "*"
+
   plug Plug.Session, @session_options
   plug PhxSoaWeb.Router
 end

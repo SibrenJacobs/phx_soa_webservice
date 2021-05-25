@@ -21,23 +21,24 @@ defmodule PhxSoaWeb.BookController do
   end
 
   def show(conn, %{"id" => id}) do
-    book = Library.get_book!(id)
-    render(conn, "show.json", book: book)
-  end
-
-  def update(conn, %{"id" => id, "book" => book_params}) do
-    book = Library.get_book!(id)
-
-    with {:ok, %Book{} = book} <- Library.update_book(book, book_params) do
+    with {:ok, %Book{} = book} <- Library.get_book(id) do
       render(conn, "show.json", book: book)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    book = Library.get_book!(id)
+  def update(conn, %{"id" => id, "book" => book_params}) do
+    with {:ok, %Book{} = book} <- Library.get_book(id) do
+      with {:ok, %Book{} = book} <- Library.update_book(book, book_params) do
+        render(conn, "show.json", book: book)
+      end
+    end
+  end
 
-    with {:ok, %Book{}} <- Library.delete_book(book) do
-      send_resp(conn, :no_content, "")
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %Book{} = book} <- Library.get_book(id) do
+      with {:ok, %Book{}} <- Library.delete_book(book) do
+        send_resp(conn, :no_content, "")
+      end
     end
   end
 end

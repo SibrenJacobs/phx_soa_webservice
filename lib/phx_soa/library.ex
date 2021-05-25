@@ -36,7 +36,14 @@ defmodule PhxSoa.Library do
 
   """
   def get_book!(id), do: Repo.get!(Book, id)
-  def get_book(id), do: Repo.get(Book, id)
+
+  def get_book(id) do
+    case Repo.get(Book, id) do
+      nil -> {:error, :not_found}
+      %Book{} = book -> {:ok, book}
+    end
+  end
+
 
   @doc """
   Creates a book.

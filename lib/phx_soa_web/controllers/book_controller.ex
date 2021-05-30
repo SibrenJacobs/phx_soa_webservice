@@ -11,7 +11,8 @@ defmodule PhxSoaWeb.BookController do
     render(conn, "index.json", books: books)
   end
 
-  def create(conn, %{"book" => book_params}) do
+  def create(conn, %{"author" => author, "name" => name, "pages" => pages}) do
+    book_params = %{"author" => author, "name" => name, "pages" => pages}
     with {:ok, %Book{} = book} <- Library.create_book(book_params) do
       conn
       |> put_status(:created)
@@ -26,7 +27,8 @@ defmodule PhxSoaWeb.BookController do
     end
   end
 
-  def update(conn, %{"id" => id, "book" => book_params}) do
+  def update(conn, %{"id" => id, "author" => author, "name" => name, "pages" => pages}) do
+    book_params = %{"author" => author, "name" => name, "pages" => pages}
     with {:ok, %Book{} = book} <- Library.get_book(id) do
       with {:ok, %Book{} = book} <- Library.update_book(book, book_params) do
         render(conn, "show.json", book: book)
